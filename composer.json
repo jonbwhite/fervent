@@ -1,6 +1,6 @@
 {
-    "name": "fervent",
-    "description": "Self-validating smart models for Laravel 4's Eloquent O/RM",
+    "name": "fervent/fervent",
+    "description": "Self-validating smart models for Laravel 4's Eloquent ORM",
     "keywords": ["validation", "laravel", "framework", "eloquent", "database", "sql", "orm", "activerecord", "active record"],
     "type": "library",
     "homepage": "https://github.com/jonbwhite/fervent",
@@ -13,7 +13,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/jonbwhite/fervent/issues",
+        "issues": "https://github.com/jonbwhite/fervent/issues"
     },
     "require": {
         "php": ">=5.4.0",
