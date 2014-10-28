@@ -1,9 +1,7 @@
-<?php namespace LaravelBook\Ardent;
+<?php namespace Fervent;
 
 /*
- * This file is part of the Ardent package.
- *
- * (c) Max Ehsan <contact@laravelbook.com>
+ * This file is part of the Fervent package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,10 +24,10 @@ use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\Translator;
 
 /**
- * Ardent - Self-validating Eloquent model base class
+ * FerventTraits - Self-validating traits intended for Eloquent model base class
  *
  */
-abstract class Ardent extends Model {
+trait FerventTraits {
 
     /**
      * The rules to be applied to the data.
@@ -84,7 +82,7 @@ abstract class Ardent extends Model {
     public $autoHydrateEntityFromInput = false;
 
     /**
-     * By default, Ardent will attempt hydration only if the model object contains no attributes and
+     * By default, Fervent will attempt hydration only if the model object contains no attributes and
      * the $autoHydrateEntityFromInput property is set to true.
      * Setting $forceEntityHydrationFromInput to true will bypass the above check and enforce
      * hydration of model attributes.
@@ -134,14 +132,14 @@ abstract class Ardent extends Model {
     protected static $externalValidator = false;
 
     /**
-     * A Translator instance, to be used by standalone Ardent instances.
+     * A Translator instance, to be used by standalone Fervent instances.
      *
      * @var \Illuminate\Validation\Factory
      */
     protected static $validationFactory;
 
     /**
-     * Can be used to ease declaration of relationships in Ardent models.
+     * Can be used to ease declaration of relationships in Fervent models.
      * Follows closely the behavior of the relation methods used by Eloquent, but packing them into an indexed array
      * with relation constants make the code less cluttered.
      *
@@ -155,7 +153,7 @@ abstract class Ardent extends Model {
      *
      * Example:
      * <code>
-     * class Order extends Ardent {
+     * class Order extends Fervent {
      *     protected static $relations = array(
      *         'items'    => array(self::HAS_MANY, 'Item'),
      *         'owner'    => array(self::HAS_ONE, 'User', 'foreignKey' => 'user_id'),
@@ -202,10 +200,10 @@ abstract class Ardent extends Model {
     );
 
     /**
-     * Create a new Ardent model instance.
+     * Create a new Fervent model instance.
      *
      * @param array $attributes
-     * @return \LaravelBook\Ardent\Ardent
+     * @return \LaravelBook\Fervent\Fervent
      */
     public function __construct(array $attributes = array()) {
 
@@ -275,7 +273,7 @@ abstract class Ardent extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\Relation
      * @throws \InvalidArgumentException when the first param of the relation is not a relation type constant,
      *      or there's one or more arguments missing
-     * @see Ardent::relationsData
+     * @see Fervent::relationsData
      */
     protected function handleRelationalArray($relationName) {
         $relation     = static::$relationsData[$relationName];
@@ -284,7 +282,7 @@ abstract class Ardent extends Model {
 
         if (!in_array($relationType, static::$relationTypes)) {
             throw new \InvalidArgumentException($errorHeader.
-            ' should have as first param one of the relation constants of the Ardent class.');
+            ' should have as first param one of the relation constants of the Fervent class.');
         }
         if (!isset($relation[1]) && $relationType != self::MORPH_TO) {
             throw new \InvalidArgumentException($errorHeader.
@@ -450,7 +448,7 @@ abstract class Ardent extends Model {
     }
 
     /**
-     * Configures Ardent to be used outside of Laravel - correctly setting Eloquent and Validation modules.
+     * Configures Fervent to be used outside of Laravel - correctly setting Eloquent and Validation modules.
      * @todo Should allow for additional language files. Would probably receive a Translator instance as an optional argument, or a list of translation files.
      *
      * @param array $connection Connection info used by {@link \Illuminate\Database\Capsule\Manager::addConnection}.
@@ -486,7 +484,7 @@ abstract class Ardent extends Model {
      * @param $rules
      * @param $customMessages
      * @return \Illuminate\Validation\Validator
-     * @see Ardent::$externalValidator
+     * @see Fervent::$externalValidator
      */
     protected static function makeValidator($data, $rules, $customMessages) {
         if (self::$externalValidator) {
@@ -572,8 +570,8 @@ abstract class Ardent extends Model {
      * @param bool    $force          Forces saving invalid data.
 
      * @return bool
-     * @see Ardent::save()
-     * @see Ardent::forceSave()
+     * @see Fervent::save()
+     * @see Fervent::forceSave()
      */
     protected function internalSave(array $rules = array(),
         array $customMessages = array(),
@@ -608,7 +606,7 @@ abstract class Ardent extends Model {
      * @param Closure $afterSave
      *
      * @return bool
-     * @see Ardent::forceSave()
+     * @see Fervent::forceSave()
      */
     public function save(array $rules = array(),
         array $customMessages = array(),
@@ -628,7 +626,7 @@ abstract class Ardent extends Model {
      * @param Closure $beforeSave
      * @param Closure $afterSave
      * @return bool
-     * @see Ardent::save()
+     * @see Fervent::save()
      */
     public function forceSave(array $rules = array(),
         array $customMessages = array(),
@@ -767,7 +765,7 @@ abstract class Ardent extends Model {
     /**
      * When given an ID and a Laravel validation rules array, this function
      * appends the ID to the 'unique' rules given. The resulting array can
-     * then be fed to a Ardent save so that unchanged values
+     * then be fed to a Fervent save so that unchanged values
      * don't flag a validation issue. Rules can be in either strings
      * with pipes or arrays, but the returned rules are in arrays.
      *
@@ -852,7 +850,7 @@ abstract class Ardent extends Model {
 	 * @param array $rules Validation rules
 	 * @param array $customMessages Custom error messages
 	 * @return bool
-	 * @see Ardent::validate()
+	 * @see Fervent::validate()
 	 */
 	public function validateUniques(array $rules = array(), array $customMessages = array()) {
 		$rules = $this->buildUniqueExclusionRules($rules);
@@ -865,7 +863,7 @@ abstract class Ardent extends Model {
      *
      * @param  mixed $id
      * @param  array $columns
-     * @return Ardent|Collection
+     * @return Fervent|Collection
      */
     public static function find($id, $columns = array('*')) {
         $debug = debug_backtrace(false);

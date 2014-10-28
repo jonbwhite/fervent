@@ -1,18 +1,16 @@
-<?php namespace LaravelBook\Ardent\Providers;
+<?php namespace Fervent\Providers;
 
 /*
- * This file is part of the Ardent package.
- *
- * (c) Max Ehsan <contact@laravelbook.com>
+ * This file is part of the Fervent package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 use Illuminate\Support\ServiceProvider;
-use LaravelBook\Ardent\Ardent;
+use Fervent\Fervent;
 
-class ArdentServiceProvider extends ServiceProvider {
+class FerventServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -28,7 +26,7 @@ class ArdentServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('laravelbook/ardent');
+		$this->package('fervent');
 	}
 
 	/**
@@ -48,7 +46,7 @@ class ArdentServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('ardent');
+		return array('fervent');
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php namespace LaravelBook\Ardent\Facades;
+<?php namespace Fervent\Facades;
 
 /*
  * This file is part of the Ardent package.
@@ -11,13 +11,13 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class Ardent extends Facade {
+class Fervent extends Facade {
 
 	/**
 	 * Get the registered name of the component.
 	 *
 	 * @return string
 	 */
-	protected static function getFacadeAccessor() { return 'ardent'; }
+	protected static function getFacadeAccessor() { return 'fervent'; }
 
 }
