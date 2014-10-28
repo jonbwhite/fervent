@@ -174,19 +174,19 @@ trait FerventTraits {
      */
     protected static $relationsData = array();
 
-    const HAS_ONE = 'hasOne';
+    public static $HAS_ONE = 'hasOne';
 
-    const HAS_MANY = 'hasMany';
+    public static $HAS_MANY = 'hasMany';
 
-    const BELONGS_TO = 'belongsTo';
+    public static $BELONGS_TO = 'belongsTo';
 
-    const BELONGS_TO_MANY = 'belongsToMany';
+    public static $BELONGS_TO_MANY = 'belongsToMany';
 
-    const MORPH_TO = 'morphTo';
+    public static $MORPH_TO = 'morphTo';
 
-    const MORPH_ONE = 'morphOne';
+    public static $MORPH_ONE = 'morphOne';
 
-    const MORPH_MANY = 'morphMany';
+    public static $MORPH_MANY = 'morphMany';
 
     /**
      * Array of relations used to verify arguments used in the {@link $relationsData}
@@ -194,9 +194,9 @@ trait FerventTraits {
      * @var array
      */
     protected static $relationTypes = array(
-        self::HAS_ONE, self::HAS_MANY,
-        self::BELONGS_TO, self::BELONGS_TO_MANY,
-        self::MORPH_TO, self::MORPH_ONE, self::MORPH_MANY
+        self::$HAS_ONE, self::$HAS_MANY,
+        self::$BELONGS_TO, self::$BELONGS_TO_MANY,
+        self::$MORPH_TO, self::$MORPH_ONE, self::$MORPH_MANY
     );
 
     /**
