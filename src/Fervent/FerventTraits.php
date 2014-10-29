@@ -34,14 +34,22 @@ trait FerventTraits {
      *
      * @var array
      */
-    public static $rules = array();
+    public static $_rules = array();
+
+    public static function rules() {
+        return isset( static::$rules ) ? static::$rules : static::$_rules;
+    }
 
     /**
      * The array of custom error messages.
      *
      * @var array
      */
-    public static $customMessages = array();
+    public static $_customMessages = array();
+
+    public static function customMessages() {
+        return isset( static::$customMessages ) ? static::$customMessages : static::$_customMessages;
+    }
 
     /**
      * The validator object in case you need it externally (say, for a form builder).
@@ -64,7 +72,11 @@ trait FerventTraits {
      *
      * @var bool
      */
-    public $throwOnValidation = false;
+    public $_throwOnValidation = false;
+
+    public function throwOnValidation() {
+        return isset( $this->throwOnValidation ) ? $this->throwOnValidation : $this->_throwOnValidation;
+    }
 
     /**
      * Forces the behavior of findOrFail in very find method - throwing a {@link ModelNotFoundException}
@@ -72,14 +84,22 @@ trait FerventTraits {
      *
      * @var bool
      */
-    public static $throwOnFind = false;
+    public static $_throwOnFind = false;
+
+    public static function throwOnFind() {
+        return isset( static::$throwOnFind ) ? static::$throwOnFind : static::$_throwOnFind;
+    }
 
     /**
      * If set to true, the object will automatically populate model attributes from Input::all()
      *
      * @var bool
      */
-    public $autoHydrateEntityFromInput = false;
+    public $_autoHydrateEntityFromInput = false;
+
+    public function autoHydrateEntityFromInput() {
+        return isset( $this->autoHydrateEntityFromInput ) ? $this->autoHydrateEntityFromInput : $this->_autoHydrateEntityFromInput;
+    }
 
     /**
      * By default, Fervent will attempt hydration only if the model object contains no attributes and
@@ -89,7 +109,11 @@ trait FerventTraits {
      *
      * @var bool
      */
-    public $forceEntityHydrationFromInput = false;
+    public $_forceEntityHydrationFromInput = false;
+
+    public function forceEntityHydrationFromInput() {
+        return isset( $this->forceEntityHydrationFromInput ) ? $this->forceEntityHydrationFromInput : $this->_forceEntityHydrationFromInput;
+    }
 
     /**
      * If set to true, the object will automatically remove redundant model
@@ -97,7 +121,11 @@ trait FerventTraits {
      *
      * @var bool
      */
-    public $autoPurgeRedundantAttributes = false;
+    public $_autoPurgeRedundantAttributes = false;
+
+    public function autoPurgeRedundantAttributes() {
+        return isset( $this->autoPurgeRedundantAttributes ) ? $this->autoPurgeRedundantAttributes : $this->_autoPurgeRedundantAttributes;
+    }
 
     /**
      * Array of closure functions which determine if a given attribute is deemed
@@ -105,16 +133,28 @@ trait FerventTraits {
      *
      * @var array
      */
-    protected $purgeFilters = array();
+    protected $_purgeFilters = array();
 
-    protected $purgeFiltersInitialized = false;
+    public function purgeFilters() {
+        return isset( $this->purgeFilters ) ? $this->purgeFilters : $this->_purgeFilters;
+    }
+
+    protected $_purgeFiltersInitialized = false;
+
+    public function purgeFiltersInitialized() {
+        return isset( $this->purgeFiltersInitialized ) ? $this->purgeFiltersInitialized : $this->_purgeFiltersInitialized;
+    }
 
     /**
      * List of attribute names which should be hashed using the Bcrypt hashing algorithm.
      *
      * @var array
      */
-    public static $passwordAttributes = array();
+    public static $_passwordAttributes = array();
+
+    public static function passwordAttributes() {
+        return isset( static::$passwordAttributes ) ? static::$passwordAttributes : static::$_passwordAttributes;
+    }
 
     /**
      * If set to true, the model will automatically replace all plain-text passwords
@@ -122,14 +162,22 @@ trait FerventTraits {
      *
      * @var bool
      */
-    public $autoHashPasswordAttributes = false;
+    public $_autoHashPasswordAttributes = false;
+
+    public function autoHashPasswordAttributes() {
+        return isset( $this->autoHashPasswordAttributes ) ? $this->autoHashPasswordAttributes : $this->_autoHashPasswordAttributes;
+    }
 
     /**
      * If set to true will try to instantiate the validator as if it was outside Laravel.
      *
      * @var bool
      */
-    protected static $externalValidator = false;
+    protected static $_externalValidator = false;
+
+    public static function externalValidator() {
+        return isset( static::$externalValidator ) ? static::$externalValidator : static::$_externalValidator;
+    }
 
     /**
      * A Translator instance, to be used by standalone Fervent instances.
@@ -148,16 +196,16 @@ trait FerventTraits {
      * having named keys indicating the other arguments of the original methods: 'foreignKey' (belongsTo, hasOne,
      * belongsToMany and hasMany); 'table' and 'otherKey' (belongsToMany only); 'name', 'type' and 'id' (specific for
      * morphTo, morphOne and morphMany).
-     * Exceptionally, the relation type MORPH_TO does not include a classname, following the method declaration of
+     * Exceptionally, the relation type 'morphTo' does not include a classname, following the method declaration of
      * {@link \Illuminate\Database\Eloquent\Model::morphTo}.
      *
      * Example:
      * <code>
      * class Order extends Fervent {
      *     protected static $relations = array(
-     *         'items'    => array(self::HAS_MANY, 'Item'),
-     *         'owner'    => array(self::HAS_ONE, 'User', 'foreignKey' => 'user_id'),
-     *         'pictures' => array(self::MORPH_MANY, 'Picture', 'name' => 'imageable')
+     *         'items'    => array('hasMany', 'Item'),
+     *         'owner'    => array('hasOne', 'User', 'foreignKey' => 'user_id'),
+     *         'pictures' => array('morphMany', 'Picture', 'name' => 'imageable')
      *     );
      * }
      * </code>
@@ -172,21 +220,12 @@ trait FerventTraits {
      *
      * @var array
      */
-    protected static $relationsData = array();
+    protected static $_relationsData = array();
 
-    public static $HAS_ONE = 'hasOne';
+    public static function relationsData() {
+        return isset( static::$relationsData ) ? static::$relationsData : static::$_relationsData;
+    }
 
-    public static $HAS_MANY = 'hasMany';
-
-    public static $BELONGS_TO = 'belongsTo';
-
-    public static $BELONGS_TO_MANY = 'belongsToMany';
-
-    public static $MORPH_TO = 'morphTo';
-
-    public static $MORPH_ONE = 'morphOne';
-
-    public static $MORPH_MANY = 'morphMany';
 
     /**
      * Array of relations used to verify arguments used in the {@link $relationsData}
@@ -194,9 +233,9 @@ trait FerventTraits {
      * @var array
      */
     protected static $relationTypes = array(
-        self::$HAS_ONE, self::$HAS_MANY,
-        self::$BELONGS_TO, self::$BELONGS_TO_MANY,
-        self::$MORPH_TO, self::$MORPH_ONE, self::$MORPH_MANY
+        'hasOne', 'hasMany',
+        'belongsTo', 'belongsToMany',
+        'morphTo', 'morphOne', 'morphMany'
     );
 
     /**
@@ -205,11 +244,11 @@ trait FerventTraits {
      * @param array $attributes
      * @return \LaravelBook\Fervent\Fervent
      */
-    public function __construct(array $attributes = array()) {
+    #public function __construct(array $attributes = array()) {
 
-        parent::__construct($attributes);
-        $this->validationErrors = new MessageBag;
-    }
+    #    parent::__construct($attributes);
+    #    $this->validationErrors = new MessageBag;
+    #}
 
     /**
      * The "booting" method of the model.
@@ -276,7 +315,7 @@ trait FerventTraits {
      * @see Fervent::relationsData
      */
     protected function handleRelationalArray($relationName) {
-        $relation     = static::$relationsData[$relationName];
+        $relation     = static::relationsData()[$relationName];
         $relationType = $relation[0];
         $errorHeader  = "Relation '$relationName' on model '".get_called_class();
 
@@ -284,11 +323,11 @@ trait FerventTraits {
             throw new \InvalidArgumentException($errorHeader.
             ' should have as first param one of the relation constants of the Fervent class.');
         }
-        if (!isset($relation[1]) && $relationType != self::MORPH_TO) {
+        if (!isset($relation[1]) && $relationType != 'morphTo') {
             throw new \InvalidArgumentException($errorHeader.
             ' should have at least two params: relation type and classname.');
         }
-        if (isset($relation[1]) && $relationType == self::MORPH_TO) {
+        if (isset($relation[1]) && $relationType == 'morphTo') {
             throw new \InvalidArgumentException($errorHeader.
             ' is a morphTo relation and should not contain additional arguments.');
         }
@@ -316,13 +355,13 @@ trait FerventTraits {
         };
 
         switch ($relationType) {
-            case self::HAS_ONE:
-            case self::HAS_MANY:
-            case self::BELONGS_TO:
+            case 'hasOne':
+            case 'hasMany':
+            case 'belongsTo':
                 $verifyArgs(array('foreignKey'));
                 return $this->$relationType($relation[1], $relation['foreignKey']);
 
-            case self::BELONGS_TO_MANY:
+            case 'belongsToMany':
                 $verifyArgs(array('table', 'foreignKey', 'otherKey'));
                 $relationship = $this->$relationType($relation[1], $relation['table'], $relation['foreignKey'], $relation['otherKey']);
                 if(isset($relation['pivotKeys']) && is_array($relation['pivotKeys']))
@@ -331,12 +370,12 @@ trait FerventTraits {
                     $relationship->withTimestamps();
                 return $relationship;
 
-            case self::MORPH_TO:
+            case 'morphTo':
                 $verifyArgs(array('name', 'type', 'id'));
                 return $this->$relationType($relation['name'], $relation['type'], $relation['id']);
 
-            case self::MORPH_ONE:
-            case self::MORPH_MANY:
+            case 'morphOne':
+            case 'morphMany':
                 $verifyArgs(array('type', 'id'), array('name'));
                 return $this->$relationType($relation[1], $relation['name'], $relation['type'], $relation['id']);
         }
@@ -351,7 +390,7 @@ trait FerventTraits {
      * @return mixed
      */
     public function __call($method, $parameters) {
-        if (array_key_exists($method, static::$relationsData)) {
+        if (array_key_exists($method, static::relationsData())) {
             return $this->handleRelationalArray($method);
         }
 
@@ -438,7 +477,7 @@ trait FerventTraits {
 
         if ($attr === null) {
             $camelKey = camel_case($key);
-            if (array_key_exists($camelKey, static::$relationsData)) {
+            if (array_key_exists($camelKey, static::relationsData())) {
                 $this->relations[$key] = $this->$camelKey()->getResults();
                 return $this->relations[$key];
             }
@@ -484,10 +523,10 @@ trait FerventTraits {
      * @param $rules
      * @param $customMessages
      * @return \Illuminate\Validation\Validator
-     * @see Fervent::$externalValidator
+     * @see Fervent::externalValidator()
      */
     protected static function makeValidator($data, $rules, $customMessages) {
-        if (self::$externalValidator) {
+        if (self::externalValidator()) {
             return self::$validationFactory->make($data, $rules, $customMessages);
         } else {
             return Validator::make($data, $rules, $customMessages);
@@ -504,15 +543,18 @@ trait FerventTraits {
      */
     public function validate(array $rules = array(), array $customMessages = array()) {
         if ($this->fireModelEvent('validating') === false) {
-            if ($this->throwOnValidation) {
+            if ($this->throwOnValidation()) {
                 throw new InvalidModelException($this);
             } else {
                 return false;
             }
         }
+        if ($this->validationErrors == null) {
+            $this->validationErrors = new MessageBag;
+        }
 
         // check for overrides, then remove any empty rules
-        $rules = (empty($rules))? static::$rules : $rules;
+        $rules = (empty($rules))? static::rules() : $rules;
         foreach ($rules as $field => $rls) {
             if ($rls == '') {
                 unset($rules[$field]);
@@ -522,9 +564,9 @@ trait FerventTraits {
         if (empty($rules)) {
             $success = true;
         } else {
-			$customMessages = (empty($customMessages))? static::$customMessages : $customMessages;
+			$customMessages = (empty($customMessages))? static::customMessages() : $customMessages;
 
-			if ($this->forceEntityHydrationFromInput || (empty($this->attributes) && $this->autoHydrateEntityFromInput)) {
+			if ($this->forceEntityHydrationFromInput() || (empty($this->attributes) && $this->autoHydrateEntityFromInput())) {
 				$this->fill(Input::all());
 			}
 
@@ -544,7 +586,7 @@ trait FerventTraits {
 				$this->validationErrors = $this->validator->messages();
 
 				// stash the input to the current session
-				if (!self::$externalValidator && Input::hasSession()) {
+				if (!self::externalValidator() && Input::hasSession()) {
 					Input::flash();
 				}
 			}
@@ -552,7 +594,7 @@ trait FerventTraits {
 
         $this->fireModelEvent('validated', false);
 
-	    if (!$success && $this->throwOnValidation) {
+	    if (!$success && $this->throwOnValidation()) {
 		    throw new InvalidModelException($this);
 	    }
 
@@ -644,11 +686,11 @@ trait FerventTraits {
      * @return void
      */
     protected function addBasicPurgeFilters() {
-        if ($this->purgeFiltersInitialized) {
+        if ($this->purgeFiltersInitialized()) {
             return;
         }
 
-        $this->purgeFilters[] = function ($attributeKey) {
+        $this->purgeFilters()[] = function ($attributeKey) {
             // disallow password confirmation fields
             if (Str::endsWith($attributeKey, '_confirmation')) {
                 return false;
@@ -667,7 +709,7 @@ trait FerventTraits {
             return true;
         };
 
-        $this->purgeFiltersInitialized = true;
+        $this->$purgeFiltersInitialized = true;
     }
 
     /**
@@ -713,12 +755,12 @@ trait FerventTraits {
      */
     protected function performSave(array $options) {
 
-        if ($this->autoPurgeRedundantAttributes) {
+        if ($this->autoPurgeRedundantAttributes()) {
             $this->attributes = $this->purgeArray($this->getAttributes());
         }
 
-        if ($this->autoHashPasswordAttributes) {
-            $this->attributes = $this->hashPasswordAttributes($this->getAttributes(), static::$passwordAttributes);
+        if ($this->autoHashPasswordAttributes()) {
+            $this->attributes = $this->hashPasswordAttributes($this->getAttributes(), static::passwordAttributes());
         }
 
         return parent::save($options);
@@ -730,6 +772,9 @@ trait FerventTraits {
      * @return \Illuminate\Support\MessageBag
      */
     public function errors() {
+        if ($this->validationErrors == null) {
+            $this->validationErrors = new MessageBag;
+        }
         return $this->validationErrors;
     }
 
@@ -777,7 +822,7 @@ trait FerventTraits {
     protected function buildUniqueExclusionRules(array $rules = array()) {
       
         if (!count($rules))
-          $rules = static::$rules;
+          $rules = static::rules();
 
         foreach ($rules as $field => &$ruleset) {
             // If $ruleset is a pipe-separated string, switch it to array
@@ -868,7 +913,7 @@ trait FerventTraits {
     public static function find($id, $columns = array('*')) {
         $debug = debug_backtrace(false);
 
-        if (static::$throwOnFind && $debug[1]['function'] != 'findOrFail') {
+        if (static::throwOnFind() && $debug[1]['function'] != 'findOrFail') {
             return self::findOrFail($id, $columns);
         } else {
             return parent::find($id, $columns);
@@ -884,7 +929,7 @@ trait FerventTraits {
 	 */
 	public function newQuery($excludeDeleted = true) {
 		$builder = new Builder($this->newBaseQueryBuilder());
-		$builder->throwOnFind = static::$throwOnFind;
+		$builder->throwOnFind = static::throwOnFind();
 
 		// Once we have the query builders, we will set the model instances so the
 		// builder can easily access any information it may need from the model
