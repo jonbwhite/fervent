@@ -282,16 +282,18 @@ echo "{$user->address->street}, {$user->address->city} - {$user->address->state}
 The array syntax is as follows:
 
 - First indexed value: relation name, being one of
-[`hasOne`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_hasOne),
-[`hasMany`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_hasMany),
-[`belongsTo`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_belongsTo),
-[`belongsToMany`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_belongsToMany),
-[`morphTo`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_morphTo),
-[`morphOne`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_morphOne),
-[`morphMany`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_morphMany).
+[`hasOne`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_hasOne),
+[`hasMany`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_hasMany),
+[`hasManyThrough`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_hasManyThrough),
+[`belongsTo`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_belongsTo),
+[`belongsToMany`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_belongsToMany),
+[`morphTo`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_morphTo),
+[`morphOne`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_morphOne),
+[`morphMany`](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html#method_morphMany).
 - Second indexed: class name, with complete namespace. The exception is `morphTo` relations, that take no additional argument.
 - named arguments, following the ones defined for the original Eloquent methods:
     - `foreignKey` [optional], valid for `hasOne`, `hasMany`, `belongsTo` and `belongsToMany`
+    - `firstKey`, `secondKey` [optional], valid for `hasManyThrough`
     - `table`,`otherKey` [optional],`timestamps` [boolean, optional], and `pivotKeys` [array, optional], valid for `belongsToMany`
     - `name`, `type` and `id`, used by `morphTo`, `morphOne` and `morphMany` (the last two requires `name` to be defined)
     

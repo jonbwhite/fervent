@@ -233,7 +233,7 @@ trait FerventTraits {
      * @var array
      */
     protected static $relationTypes = array(
-        'hasOne', 'hasMany',
+        'hasOne', 'hasMany', 'hasManyThrough',
         'belongsTo', 'belongsToMany',
         'morphTo', 'morphOne', 'morphMany'
     );
@@ -368,6 +368,14 @@ trait FerventTraits {
             throw new \InvalidArgumentException($errorHeader.
             ' is a morphTo relation and should not contain additional arguments.');
         }
+        if (isset($relation[2]) && $relationType != 'hasManyThrough') {
+            throw new \InvalidArgumentException($errorHeader.
+                ' is not a hasManyThrough relation and should not contain additional arguments.');
+        }
+        if (!isset($relation[2]) && $relationType == 'hasManyThrough') {
+            throw new \InvalidArgumentException($errorHeader.
+                ' is a hasManyThrough relation and should have atleast three parameters: relation type, related model classname and through model classname.');
+        }
 
         $verifyArgs = function (array $opt, array $req = array()) use ($relationName, &$relation, $errorHeader) {
             $missing = array('req' => array(), 'opt' => array());
@@ -392,6 +400,10 @@ trait FerventTraits {
         };
 
         switch ($relationType) {
+            case 'hasManyThrough':
+                $verifyArgs(array('firstKey', 'secondKey'));
+                return $this->$relationType($relation[1], $relation[2], $relation['firstKey'], $relation['secondKey']);
+
             case 'hasOne':
             case 'hasMany':
             case 'belongsTo':
