@@ -24,10 +24,10 @@ use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\Translator;
 
 /**
- * FerventTraits - Self-validating traits intended for Eloquent model base class
+ * FerventTrait - Self-validating traits intended for Eloquent model base class
  *
  */
-trait FerventTraits {
+trait FerventTrait {
 
     /**
      * The rules to be applied to the data.

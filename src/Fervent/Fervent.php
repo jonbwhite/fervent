@@ -28,5 +28,5 @@ use Symfony\Component\Translation\Translator;
  *
  */
 abstract class Fervent extends Model {
-    use FerventTraits;
+    use FerventTrait;
 }

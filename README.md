@@ -129,6 +129,16 @@ use Fervent\Fervent;
 class User extends Fervent {}
 ```
 
+However, if you are not using the vanilla `Eloquent` base class, you can also add `Fervent` capabilities to any `Eloquent` descendant or service provider by including `FerventTrait`:
+
+```php
+use Fervent\FerventTrait;
+
+class User extends Eloquent {
+    use FerventTrait;
+}
+```
+
 > **Note:** You can freely *co-mingle* your plain-vanilla Eloquent models with Fervent descendants. If a model object doesn't rely upon user submitted content and therefore doesn't require validation - you may leave the Eloquent model class as it is.
 
 
