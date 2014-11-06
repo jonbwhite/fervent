@@ -4,7 +4,7 @@ Fervent
 
 Self-validating smart models for Laravel Framework 4's Eloquent ORM.
 
-Based on the Fervent by Max Ehsan and Igor Santos
+Based on the Ardent by Max Ehsan and Igor Santos
 
 ## Installation
 
@@ -50,8 +50,8 @@ to your database, obviously):
 * [Overriding Validation](#overriding-validation)
 * [Custom Validation Error Messages](#custom-validation-error-messages)
 * [Custom Validation Rules](#custom-validation-rules)
-* [Model hooks](#model-hooks-since-20)
-* [Cleaner definition of relationships](#cleaner-definition-of-relationships-since-20)
+* [Model hooks](#model-hooks)
+* [Cleaner definition of relationships](#cleaner-definition-of-relationships)
 * [Automatically Hydrate Fervent Entities](#automatically-hydrate-fervent-entities)
 * [Automatically Purge Redundant Form Data](#automatically-purge-redundant-form-data)
 * [Automatically Transform Secure-Text Attributes](#automatically-transform-secure-text-attributes)
@@ -269,9 +269,9 @@ In Fervent you can cleanly define your relationships in an array with their info
 ```php
 class User extends \Fervent\Fervent {
   public static $relationsData = array(
-    'address' => array(self::HAS_ONE, 'Address'),
-    'orders'  => array(self::HAS_MANY, 'Order'),
-    'groups'  => array(self::BELONGS_TO_MANY, 'Group', 'table' => 'groups_have_users')
+    'address' => array('hasOne', 'Address'),
+    'orders'  => array('hasMany', 'Order'),
+    'groups'  => array('belongsToMany', 'Group', 'table' => 'groups_have_users')
   );
 }
 
@@ -288,8 +288,7 @@ The array syntax is as follows:
 [`belongsToMany`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_belongsToMany),
 [`morphTo`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_morphTo),
 [`morphOne`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_morphOne),
-[`morphMany`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_morphMany),
-or one of the related constants (`Fervent::HAS_MANY` or `Fervent::MORPH_ONE` for example).
+[`morphMany`](http://laravel.com/api/class-Illuminate.Database.Eloquent.Model.html#_morphMany).
 - Second indexed: class name, with complete namespace. The exception is `morphTo` relations, that take no additional argument.
 - named arguments, following the ones defined for the original Eloquent methods:
     - `foreignKey` [optional], valid for `hasOne`, `hasMany`, `belongsTo` and `belongsToMany`

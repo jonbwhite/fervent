@@ -239,16 +239,58 @@ trait FerventTraits {
     );
 
     /**
-     * Create a new Fervent model instance.
+     * The array of event hooks.
      *
-     * @param array $attributes
-     * @return \LaravelBook\Fervent\Fervent
+     * @var array
      */
-    #public function __construct(array $attributes = array()) {
+    public static $events = [ 'saving'   => 'beforeSave',   'saved'   => 'afterSaved',
+                       'creating' => 'beforeCreate', 'created' => 'afterCreated',
+                       'updating' => 'beforeUpdate', 'updated' => 'afterUpdated',
+                       'deleting' => 'beforeDelete', 'deleted' => 'afterDeleted',
+                       'validating' => 'beforeValidate','validated' => 'afterValidated'
+                     ];
 
-    #    parent::__construct($attributes);
-    #    $this->validationErrors = new MessageBag;
-    #}
+    /**
+     * Fire the given event for the model.
+     *
+     * @param  string  $event
+     * @param  bool    $halt
+     * @return mixed
+     */
+    protected function fireModelEvent($event, $halt = true)
+    {
+        $tempEvent = $event;
+
+        if (isset(static::$dispatcher)) {
+            // We will append the names of the class to the event to distinguish it from
+            // other model events that are fired, allowing us to listen on each model
+            // event set individually instead of catching event for all the models.
+            $event = "eloquent.{$event}: ".get_class($this);
+
+            if (static::$dispatcher->getListeners($event)) {
+                $method = $halt ? 'until' : 'fire';
+                return static::$dispatcher->$method($event, $this);
+            }
+        }
+
+        // Code below here is to account for the case when the dispatcher has been
+        // reinstantiated, but boot has not been called, thus not re-registering
+        // model events.  In practice this should only really happen using phpunit
+        // See https://github.com/laravel/framework/issues/1181 for more info
+        // Thanks to @mk-relax for this solution 
+        // https://github.com/laravel/framework/issues/1181#issuecomment-54392670
+        $event = $tempEvent;
+        if (!isset(static::$events[$event])) {
+            return true;
+        }
+
+        $method = static::$events[$event];
+        if (method_exists($this, $method)) {
+            return call_user_func(array($this, $method), $this);
+        }
+
+        return true;
+    }
 
     /**
      * The "booting" method of the model.
@@ -261,20 +303,15 @@ trait FerventTraits {
         parent::boot();
 
         $myself   = get_called_class();
-        $hooks    = array('before' => 'ing', 'after' => 'ed');
-        $radicals = array('sav', 'validat', 'creat', 'updat', 'delet');
 
-        foreach ($radicals as $rad) {
-            foreach ($hooks as $hook => $event) {
-                $method = $hook.ucfirst($rad).'e';
-                if (method_exists($myself, $method)) {
-                    $eventMethod = $rad.$event;
-                    self::$eventMethod(function($model) use ($method){
-                        return $model->$method($model);
-                    });
-                }
+        foreach (static::$events as  $event => $method) {
+            if (method_exists($myself, $method)) {
+                self::$event(function($model) use ($method){
+                    return $model->$method($model);
+                });
             }
         }
+
     }
 
 	public function getObservableEvents() {
@@ -946,4 +983,5 @@ trait FerventTraits {
     public function getValidator() {
         return $this->validator;
     }
+
 }
