@@ -244,10 +244,10 @@ trait FerventTrait {
      * @var array
      */
     public static $events = [ 'saving'   => 'beforeSave',   'saved'   => 'afterSave',
-                       'creating' => 'beforeCreate', 'created' => 'afterCreated',
-                       'updating' => 'beforeUpdate', 'updated' => 'afterUpdated',
-                       'deleting' => 'beforeDelete', 'deleted' => 'afterDeleted',
-                       'validating' => 'beforeValidate','validated' => 'afterValidated'
+                       'creating' => 'beforeCreate', 'created' => 'afterCreate',
+                       'updating' => 'beforeUpdate', 'updated' => 'afterUpdate',
+                       'deleting' => 'beforeDelete', 'deleted' => 'afterDelete',
+                       'validating' => 'beforeValidate','validated' => 'afterValidate'
                      ];
 
     /**
