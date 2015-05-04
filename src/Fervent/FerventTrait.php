@@ -13,6 +13,7 @@ use Illuminate\Database\Capsule\Manager as DatabaseCapsule;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -623,6 +624,11 @@ trait FerventTrait {
 
 			// perform validation
 			$this->validator = static::makeValidator($data, $rules, $customMessages);
+            if (isset($this->connection)) {
+                $verifier = App::make('validation.presence');
+                $verifier->setConnection($this->connection);
+                $this->validator->setPresenceVerifier($verifier);
+            }
 			$success   = $this->validator->passes();
 
 			if ($success) {
