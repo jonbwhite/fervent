@@ -61,6 +61,13 @@ trait FerventTrait {
     protected $validator;
 
     /**
+     * The connection that should be used when validating, if different from the default connection
+     *
+     * @var \Illuminate\Support\MessageBag
+     */
+    public $validationConnection;
+
+    /**
      * The message bag instance containing validation error messages
      *
      * @var \Illuminate\Support\MessageBag
@@ -624,9 +631,9 @@ trait FerventTrait {
 
 			// perform validation
 			$this->validator = static::makeValidator($data, $rules, $customMessages);
-            if (isset($this->connection)) {
+            if (isset($this->validationConnection)) {
                 $verifier = App::make('validation.presence');
-                $verifier->setConnection($this->connection);
+                $verifier->setConnection($this->validationConnection);
                 $this->validator->setPresenceVerifier($verifier);
             }
 			$success   = $this->validator->passes();
