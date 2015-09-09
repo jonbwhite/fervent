@@ -972,15 +972,17 @@ trait FerventTrait {
      * @param  array $columns
      * @return Fervent|Collection
      */
-    public static function find($id, $columns = array('*')) {
-        $debug = debug_backtrace(false);
+    # find removed as function from eloquent in Laravel 5.1
+    # TODO: either update to work with 5.1 or remove throwOnFind functionality
+    #public static function find($id, $columns = array('*')) {
+    #    $debug = debug_backtrace(false);
 
-        if (static::throwOnFind() && $debug[1]['function'] != 'findOrFail') {
-            return self::findOrFail($id, $columns);
-        } else {
-            return parent::find($id, $columns);
-        }
-    }
+    #    if (static::throwOnFind() && $debug[1]['function'] != 'findOrFail') {
+    #        return self::findOrFail($id, $columns);
+    #    } else {
+    #        return parent::find($id, $columns);
+    #    }
+    #}
 
 	/**
 	 * Get a new query builder for the model's table.
