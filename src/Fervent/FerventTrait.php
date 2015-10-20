@@ -976,9 +976,9 @@ trait FerventTrait {
         $debug = debug_backtrace(false);
 
         if (static::throwOnFind() && $debug[1]['function'] != 'findOrFail') {
-            return self::findOrFail($id, $columns);
+            return static::query()->findOrFail($id, $columns);
         } else {
-            return parent::find($id, $columns);
+            return static::query()->find($id, $columns);
         }
     }
 
